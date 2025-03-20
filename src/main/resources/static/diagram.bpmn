@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0b2ddu6" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.3.1">
+  <bpmn:process id="Process_0kblmu9" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_1ov4aay">
+      <bpmn:outgoing>Flow_0v5843r</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Activity_0rragjx" name="task1">
+      <bpmn:incoming>Flow_0v5843r</bpmn:incoming>
+      <bpmn:outgoing>Flow_17cmr2n</bpmn:outgoing>
+	  <bpmn:extensionElements>
+        
+        <!-- Custom Input Definitions -->
+        <custom:inputs>
+          <custom:input name="url">https://api.example.com/getCredit</custom:input>
+          <custom:input name="method">POST</custom:input>
+          <custom:input name="retry">3</custom:input>
+          <custom:input name="body">
+            {
+			"userId": { "type" : "simple", "value": "some_userId" },
+			"name" : { "type" : "simple", "value": "some_name" },
+			"age" : { "type" : "simple" , "value": 20 }
+			}
+          </custom:input>
+        </custom:inputs>
+		
+		<custom:outputs>
+		  <custom:output name="creditScore" source="$creditScore" />
+		  <custom:output name="status" source="$status" />
+		</custom:outputs>
+        
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_0v5843r" sourceRef="StartEvent_1ov4aay" targetRef="Activity_0rragjx" />
+    <bpmn:task id="Activity_0b08spg" name="task2">
+      <bpmn:incoming>Flow_17cmr2n</bpmn:incoming>
+      <bpmn:outgoing>Flow_03q9ff0</bpmn:outgoing>
+	  <bpmn:extensionElements>
+        
+        <!-- Custom Input Definitions -->
+        <custom:inputs>
+          <custom:input name="url">https://api.example.com/checkEligibilty</custom:input>
+          <custom:input name="method">POST</custom:input>
+          <custom:input name="retry">
+            1
+          </custom:input>
+          <custom:input name="body">
+            { 
+			"userId": { "type" : "simple", "value" = some_userId"}, 
+			"creditScore": {"value":"task1.creditScore","type" : "taskVariable"}
+			}
+          </custom:input>
+        </custom:inputs>
+		
+		<custom:outputs>
+		  
+		  <custom:output name="LoanStatus" source="$LoanStatus" />
+		</custom:outputs>
+        
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_17cmr2n" sourceRef="Activity_0rragjx" targetRef="Activity_0b08spg" />
+    <bpmn:task id="Activity_0pyn5e2" name="task3">
+      <bpmn:incoming>Flow_03q9ff0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1oah6lr</bpmn:outgoing>
+	  <bpmn:extensionElements>
+        
+        <!-- Custom Input Definitions -->
+        <custom:inputs>
+          <custom:input name="url">https://api.example.com/notifyCustomer</custom:input>
+          <custom:input name="method">POST</custom:input>
+          <custom:input name="retry">
+            3 
+          </custom:input>
+          <custom:input name="body">
+            {"userId": { "type" : "simple", "value" = some_userId"},  "LoanStatus": {"value":"task2.status","type" : "taskVariable"}}
+          </custom:input>
+        </custom:inputs>
+		<custom:outputs>
+		  <custom:output name="userNotified" source="$userNotified" />
+		</custom:outputs>
+        
+      </bpmn:extensionElements>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_03q9ff0" sourceRef="Activity_0b08spg" targetRef="Activity_0pyn5e2" />
+    <bpmn:endEvent id="Event_1ei0fau">
+      <bpmn:incoming>Flow_1oah6lr</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1oah6lr" sourceRef="Activity_0pyn5e2" targetRef="Event_1ei0fau" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0kblmu9">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1ov4aay">
+        <dc:Bounds x="156" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0rragjx_di" bpmnElement="Activity_0rragjx">
+        <dc:Bounds x="250" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0b08spg_di" bpmnElement="Activity_0b08spg">
+        <dc:Bounds x="410" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0pyn5e2_di" bpmnElement="Activity_0pyn5e2">
+        <dc:Bounds x="570" y="60" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ei0fau_di" bpmnElement="Event_1ei0fau">
+        <dc:Bounds x="732" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0v5843r_di" bpmnElement="Flow_0v5843r">
+        <di:waypoint x="192" y="100" />
+        <di:waypoint x="250" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_17cmr2n_di" bpmnElement="Flow_17cmr2n">
+        <di:waypoint x="350" y="100" />
+        <di:waypoint x="410" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_03q9ff0_di" bpmnElement="Flow_03q9ff0">
+        <di:waypoint x="510" y="100" />
+        <di:waypoint x="570" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1oah6lr_di" bpmnElement="Flow_1oah6lr">
+        <di:waypoint x="670" y="100" />
+        <di:waypoint x="732" y="100" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
