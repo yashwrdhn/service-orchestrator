@@ -4,6 +4,7 @@ import com.poc.orchestrator.BpmnParser;
 import com.poc.orchestrator.model.WorkflowDefinition;
 import com.poc.orchestrator.model.WorkflowGraph;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -13,8 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class WorkflowGraphRepository {
     private final Map<String, WorkflowGraph> graphCache = new ConcurrentHashMap<>();
-    private BpmnParser bpmnParser;
-    private WorkflowDefinitionRepository definitionRepository;
+    @Autowired
+    BpmnParser bpmnParser;
+    @Autowired
+    WorkflowDefinitionRepository definitionRepository;
 
     /**
      * Get workflow graph by definition ID

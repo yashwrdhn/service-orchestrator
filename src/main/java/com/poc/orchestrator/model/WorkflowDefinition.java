@@ -21,10 +21,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class WorkflowDefinition {
     @Id
-    private String id;
+    private String definitionId;
     private String name;
     private String description;
     private LocalDateTime createdAt;
+
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")

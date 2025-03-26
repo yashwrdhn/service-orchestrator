@@ -27,5 +27,6 @@ public class TaskConfig {
     private String messageTemplate; // For Kafka tasks
 
     public String getEndpoint() {
+        return "localhost:8080/getData";
     }
 }
