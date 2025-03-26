@@ -117,6 +117,13 @@
 <!--			<artifactId>xpath</artifactId>-->
 <!--			<version>1.0</version>-->
 <!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.rocksdb</groupId>
+			<artifactId>rocksdbjni</artifactId>
+			<version>6.2.4</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
